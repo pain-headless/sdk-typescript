@@ -105,6 +105,10 @@ export interface SelectOptions extends InputFillOptions {};
 export interface TypeOptions extends InputFillOptions {};
 export interface SetCheckedOptions extends InputFillOptions {};
 
+export interface SolveSimpleCaptchaOptions {
+    throwOnNoCaptcha: boolean; 
+}
+
 export interface SolveTextCaptchaOptions {
     image: string;
     input: string;

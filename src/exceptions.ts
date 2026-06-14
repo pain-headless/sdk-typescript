@@ -62,3 +62,9 @@ export class CommandError extends PainHeadlessError {
         super(message, 1000, partialData, errorCause, credits);
     }
 }
+
+export class NoCaptchaDetectedError extends PainHeadlessError {
+    constructor(message: string = 'No captcha detected on page.') {
+        super(message, 6);
+    }
+}

@@ -4,9 +4,10 @@ import {
     CommandNotFoundError,
     InsufficientCreditsError,
     InvalidParamsError,
-    CommandError
+    CommandError,
+    NoCaptchaDetectedError
 } from "./exceptions";
-import { BrowserLaunchOptions, ClickOptions, CommandResult, ExistsResult, ExtractAttributesResult, ExtractDataOptions, ExtractDataResult, ExtractFieldOptions, ExtractListOptions, ExtractListResult, ExtractTextResult, FillFormOptions, FillFormValues, ScreenshotResult, SelectOptions, SetCheckedOptions, SolveTextCaptchaOptions, TypeOptions } from "./types";
+import { BrowserLaunchOptions, ClickOptions, CommandResult, ExistsResult, ExtractAttributesResult, ExtractDataOptions, ExtractDataResult, ExtractFieldOptions, ExtractListOptions, ExtractListResult, ExtractTextResult, FillFormOptions, FillFormValues, ScreenshotResult, SelectOptions, SetCheckedOptions, SolveSimpleCaptchaOptions, SolveTextCaptchaOptions, TypeOptions } from "./types";
 import { WSClient } from "./ws-client";
 
 export class StealthBrowser {
@@ -77,6 +78,8 @@ export class StealthBrowser {
                 return new CommandNotFoundError(message);
             case 5:
                 return new InsufficientCreditsError(message);
+            case 6:
+                return new NoCaptchaDetectedError(message);
             default:
                 return new CommandError(message, errorCause, partialData, credits);
         }
@@ -439,8 +442,30 @@ export class StealthBrowser {
      * 
      * @returns {Promise<CommandResult>} The result of the command execution.
      */
-    async solveSimpleCaptcha(): Promise<CommandResult> {
-        return await this.send('solve-simple-captcha');
+    async solveSimpleCaptcha(options?: SolveSimpleCaptchaOptions): Promise<CommandResult> {
+        const defaultOptions: SolveSimpleCaptchaOptions = {
+            throwOnNoCaptcha: false,
+            ...options || {},
+        }
+
+        try {
+            return await this.send('solve-simple-captcha');
+        } catch (e) {
+            if (!(e instanceof NoCaptchaDetectedError) || defaultOptions.throwOnNoCaptcha) {
+                throw e;
+            }
+
+            return {
+                success: false,
+                message: e.message,
+                rawData: {},
+                credits: {
+                    total: -1,
+                    remaining: -1,
+                    used: 0,
+                }
+            };
+        }
     }
 
     /**
