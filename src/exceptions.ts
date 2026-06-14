@@ -68,3 +68,15 @@ export class NoCaptchaDetectedError extends PainHeadlessError {
         super(message, 6);
     }
 }
+
+export class BrowserNotStartedError extends PainHeadlessError {
+    constructor(message: string = 'Browser has not been started. Please call .start() before running any commands.') {
+        super(message, -4);
+    }
+}
+
+export class ServiceNotAvailableError extends PainHeadlessError {
+    constructor(message: string = 'Could not establish connection with the pain.headless service.') {
+        super(message, -5);
+    }
+}

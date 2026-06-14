@@ -1,5 +1,6 @@
 export interface BrowserLaunchOptions {
     apiKey: string;
+    autoStartSession?: boolean;
     language?: 'pt-BR' | 'en-US' | 'es-ES';
     timezone?: string;
     device?: 'desktop' | 'mobile';

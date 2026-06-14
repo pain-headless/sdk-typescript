@@ -5,7 +5,9 @@ import {
     InsufficientCreditsError,
     InvalidParamsError,
     CommandError,
-    NoCaptchaDetectedError
+    NoCaptchaDetectedError,
+    BrowserNotStartedError,
+    ServiceNotAvailableError
 } from "./exceptions";
 import { BrowserLaunchOptions, ClickOptions, CommandResult, ExistsResult, ExtractAttributesResult, ExtractDataOptions, ExtractDataResult, ExtractFieldOptions, ExtractListOptions, ExtractListResult, ExtractTextResult, FillFormOptions, FillFormValues, ScreenshotResult, SelectOptions, SetCheckedOptions, SolveSimpleCaptchaOptions, SolveTextCaptchaOptions, TypeOptions } from "./types";
 import { WSClient } from "./ws-client";
@@ -13,9 +15,11 @@ import { WSClient } from "./ws-client";
 export class StealthBrowser {
     private options: BrowserLaunchOptions;
     private ws: WSClient;
+    private isStarted: boolean = false;
 
     constructor (options: BrowserLaunchOptions) {
         const defaultOptions: BrowserLaunchOptions = {
+            autoStartSession: true,
             language: 'pt-BR',
             device: 'desktop',
             system: 'windows',
@@ -33,6 +37,14 @@ export class StealthBrowser {
     }
 
     private async send(command: string, parameters?: any): Promise<CommandResult> {
+        if (command !== 'start' && !this.isStarted) {
+            if (this.options.autoStartSession) {
+                await this.start();
+            } else {
+                throw new BrowserNotStartedError();
+            }
+        }
+
         const message: Record<string, any> = {
             apiKey: this.options.apiKey,
             command,
@@ -91,10 +103,17 @@ export class StealthBrowser {
      * @returns {Promise<CommandResult>} The result of the command execution.
      */
     async start(): Promise<CommandResult> {
-        await this.ws.connect();
-        const { apiKey, ...options } = this.options;
+        try {
+            await this.ws.connect();
+        } catch (e) {
+            throw new ServiceNotAvailableError();
+        }
+        
+        const { apiKey, autoStartSession, ...options } = this.options;
 
-        return await this.send('start', options);
+        const result = await this.send('start', options);
+        this.isStarted = true;
+        return result;
     }
 
     /**
@@ -106,7 +125,9 @@ export class StealthBrowser {
      */
     async close(): Promise<CommandResult> {
         const result = await this.send('close');
+
         this.ws.disconnect();
+        this.isStarted = false;
         return result;
     }
 
