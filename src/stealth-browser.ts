@@ -265,7 +265,7 @@ export class StealthBrowser {
     /**
      * Extracts structured data from one or more elements on the current page.
      * 
-     * **Credit cost:** 25 credits
+     * **Credit cost:** 30 credits
      * 
      * @param {ExtractDataOptions} options - The configuration object defining the fields to extract.
      * @returns {Promise<ExtractDataResult>} An object containing the extracted data.
@@ -322,13 +322,13 @@ export class StealthBrowser {
     /**
      * Extracts a paginated list of items. Can navigate through multiple pages to extract data.
      * 
-     * **Credit cost:** 25 credits (per Page) + 0.05 per extracted item in pages.
+     * **Credit cost:** 30 credits (per Page).
      * 
      * @param {ExtractListOptions} options - The configuration object defining the list items, fields, and pagination settings.
      * @returns {Promise<ExtractListResult>} An object containing the extracted list data and metadata.
      */
     async extractList(options: ExtractListOptions): Promise<ExtractListResult> {
-        let fields: Record<string, ExtractFieldOptions | string> = structuredClone(options.fields);
+        let fields: Record<string, ExtractFieldOptions | string> = structuredClone(JSON.parse(JSON.stringify(options.fields)));
 
         Object.entries(fields).forEach(([key, value]: [string, ExtractFieldOptions | string]) => {
             if (typeof value !== 'string' && typeof value?.format !== 'undefined') {
