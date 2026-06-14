@@ -105,7 +105,9 @@ export class StealthBrowser {
      * @returns {Promise<CommandResult>} The result of the command execution.
      */
     async close(): Promise<CommandResult> {
-        return await this.send('close');
+        const result = await this.send('close');
+        this.ws.disconnect();
+        return result;
     }
 
     /**

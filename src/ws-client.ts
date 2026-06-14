@@ -50,4 +50,11 @@ export class WSClient {
             this.ws?.send(JSON.stringify(data));
         });
     }
+
+    disconnect(): void {
+        if (this.ws) {
+            this.ws.close();
+            this.ws = undefined;
+        }
+    }
 }
