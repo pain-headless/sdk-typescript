@@ -82,21 +82,52 @@ export class StealthBrowser {
         }
     }
 
+    /**
+     * Starts the browser session and connects to the WebSocket.
+     * 
+     * **Credit cost:** 10 credits
+     * 
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async start(): Promise<CommandResult> {
         const { apiKey, ...options } = this.options;
 
         return await this.send('start', options);
     }
 
+    /**
+     * Closes the browser session and ends the automation.
+     * 
+     * **Credit cost:** 0 credits
+     * 
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async close(): Promise<CommandResult> {
         return await this.send('close');
     }
 
+    /**
+     * Navigates to the specified URL.
+     * 
+     * **Credit cost:** 15 credits
+     * 
+     * @param {string} url - The URL to navigate to.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async goTo(url: string): Promise<CommandResult> {
         return await this.send('goto', { url });
     }
 
-    async click(selector: string, options?: ClickOptions): Promise<CommandResult> {
+    /**
+     * Clicks on one or more elements specified by the selector(s).
+     * 
+     * **Credit cost:** 2 credits (per element)
+     * 
+     * @param {string | string[]} selector - The CSS or XPath selector(s) of the element(s) to click.
+     * @param {ClickOptions} [options] - Optional settings for the click action.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
+    async click(selector: string | string[], options?: ClickOptions): Promise<CommandResult> {
         const defaultOptions: ClickOptions = {
             clickAll: true,
         }
@@ -109,6 +140,16 @@ export class StealthBrowser {
         return await this.send('click', { selector, ...mergedOptions });
     }
 
+    /**
+     * Fills an entire form based on a values object.
+     * 
+     * **Credit cost:** 5 credits + 1 credit per selector in values.
+     * 
+     * @param {string} parentForm - The CSS or XPath selector of the parent form element.
+     * @param {FillFormValues} values - An object containing the values to fill, where keys are selectors and values are the input values.
+     * @param {FillFormOptions} [options] - Optional settings for filling the form.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async fillForm(parentForm: string, values: FillFormValues, options?: FillFormOptions): Promise<CommandResult> {
         const defaultOptions: FillFormOptions = {
             autoSubmit: true,
@@ -122,6 +163,16 @@ export class StealthBrowser {
         return await this.send('fillForm', { parentForm, values, ...mergedOptions });
     }
 
+    /**
+     * Selects an option in a `<select>` element.
+     * 
+     * **Credit cost:** 2 credits (per filled element)
+     * 
+     * @param {string} selector - The CSS or XPath selector of the select element.
+     * @param {string | number} value - The value to select.
+     * @param {SelectOptions} [options] - Optional settings for the select action.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async select(selector: string, value: string | number, options?: SelectOptions): Promise<CommandResult> {
         const defaultOptions: SelectOptions = {
             fillAll: true,
@@ -135,6 +186,16 @@ export class StealthBrowser {
         return await this.send('select', { selector, value, ...mergedOptions });
     }
 
+    /**
+     * Types text into an input or textarea field.
+     * 
+     * **Credit cost:** 2 credits (per filled element)
+     * 
+     * @param {string} selector - The CSS or XPath selector of the input field.
+     * @param {string} value - The text to type.
+     * @param {TypeOptions} [options] - Optional settings for the typing action.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async type(selector: string, value: string, options?: TypeOptions): Promise<CommandResult> {
         const defaultOptions: TypeOptions = {
             fillAll: true,
@@ -148,6 +209,16 @@ export class StealthBrowser {
         return await this.send('type', { selector, value, ...mergedOptions });
     }
 
+    /**
+     * Checks or unchecks a checkbox or radio button.
+     * 
+     * **Credit cost:** 2 credits (per checked/unchecked element)
+     * 
+     * @param {string} selector - The CSS or XPath selector of the checkbox or radio button.
+     * @param {boolean} value - True to check, false to uncheck.
+     * @param {SetCheckedOptions} [options] - Optional settings for the action.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async setChecked(selector: string, value: boolean, options?: SetCheckedOptions): Promise<CommandResult> {
         const defaultOptions: SetCheckedOptions = {
             fillAll: true,
@@ -161,10 +232,26 @@ export class StealthBrowser {
         return await this.send('setChecked', { selector, value, ...mergedOptions });
     }
 
+    /**
+     * Hovers the mouse over an element.
+     * 
+     * **Credit cost:** 1 credit
+     * 
+     * @param {string} selector - The CSS or XPath selector of the element to hover over.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
     async hover(selector: string) {
         return await this.send('hover', { selector });
     }
 
+    /**
+     * Checks if an element exists on the page.
+     * 
+     * **Credit cost:** 1 credit
+     * 
+     * @param {string} selector - The CSS or XPath selector of the element to check.
+     * @returns {Promise<ExistsResult>} A result object indicating whether the element exists.
+     */
     async exists(selector: string): Promise<ExistsResult> {
         const result = await this.send('exists', { selector });
 
@@ -174,6 +261,14 @@ export class StealthBrowser {
         };
     }
 
+    /**
+     * Extracts structured data from one or more elements on the current page.
+     * 
+     * **Credit cost:** 25 credits
+     * 
+     * @param {ExtractDataOptions} options - The configuration object defining the fields to extract.
+     * @returns {Promise<ExtractDataResult>} An object containing the extracted data.
+     */
     async extractData(options: ExtractDataOptions): Promise<ExtractDataResult> {
         const result = await this.send('extract-data', options);
 
@@ -183,6 +278,14 @@ export class StealthBrowser {
         };
     }
 
+    /**
+     * Extracts the text content from one or more elements.
+     * 
+     * **Credit cost:** 1 credit (per element)
+     * 
+     * @param {string} selector - The CSS or XPath selector of the element(s).
+     * @returns {Promise<ExtractTextResult>} An object containing the extracted text.
+     */
     async extractText(selector: string): Promise<ExtractTextResult> {
         const result = await this.send('extract-text', { selector });
 
@@ -192,6 +295,15 @@ export class StealthBrowser {
         };
     }
 
+    /**
+     * Extracts a specific attribute (e.g., `href`, `src`) from one or more elements.
+     * 
+     * **Credit cost:** 1 credit (per element)
+     * 
+     * @param {string} selector - The CSS or XPath selector of the element(s).
+     * @param {string} attribute - The name of the attribute to extract.
+     * @returns {Promise<ExtractAttributesResult>} An object containing the extracted attribute(s).
+     */
     async extractAttribute(selector: string, attribute: string): Promise<ExtractAttributesResult> {
         const result = await this.send('extract-attribute', { selector, attribute });
 
@@ -206,12 +318,20 @@ export class StealthBrowser {
         return { ...result, ...result.rawData?.data?.data };
     }
 
+    /**
+     * Extracts a paginated list of items. Can navigate through multiple pages to extract data.
+     * 
+     * **Credit cost:** 25 credits (per Page) + 0.05 per extracted item in pages.
+     * 
+     * @param {ExtractListOptions} options - The configuration object defining the list items, fields, and pagination settings.
+     * @returns {Promise<ExtractListResult>} An object containing the extracted list data and metadata.
+     */
     async extractList(options: ExtractListOptions): Promise<ExtractListResult> {
         let fields: Record<string, ExtractFieldOptions | string> = structuredClone(options.fields);
 
         Object.entries(fields).forEach(([key, value]: [string, ExtractFieldOptions | string]) => {
-            if (value !== 'string' && typeof value?.format !== 'undefined') {
-                delete fields[key].format;
+            if (typeof value !== 'string' && typeof value?.format !== 'undefined') {
+                delete (fields[key] as ExtractFieldOptions).format;
             }
         });
         
@@ -273,8 +393,9 @@ export class StealthBrowser {
 
         for (const i in data.data) {
             for (const field of Object.keys(data.data[i])) {
-                if (typeof options.fields[field].format !== 'undefined') {
-                    data.data[i][field] = options.fields[field].format(data.data[i][field]);
+                const fieldOption = options.fields[field];
+                if (typeof fieldOption !== 'string' && typeof fieldOption?.format !== 'undefined') {
+                    data.data[i][field] = fieldOption.format(data.data[i][field]);
                 }
             } 
         }
