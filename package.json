@@ -1,23 +1,45 @@
 {
   "name": "pain-headless",
   "version": "1.0.0",
-  "description": "Pacote TypeScript para consumir o WebSocket do Pain Headless",
+  "description": "The ultimate browser as a service SDK for webscraping",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "typedoc"
   },
   "keywords": [
     "websocket",
-    "client"
+    "client",
+    "webscraping",
+    "browser",
+    "automation",
+    "data science",
+    "crawler",
+    "selenium",
+    "puppeteer",
+    "playwright",
+    "webdriver",
+    "chromedriver",
+    "geckodriver",
+    "beaultifoul-soup",
+    "bs4",
+    "sraping",
+    "scrap",
+    "proxy",
+    "capsolver",
+    "captcha"
   ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.0.0",
     "@types/ws": "^8.5.10",
+    "typedoc": "^0.28.19",
+    "typedoc-plugin-llms-txt": "^0.1.2",
+    "typedoc-plugin-markdown": "^4.12.0",
     "typescript": "^5.0.0"
   },
   "dependencies": {

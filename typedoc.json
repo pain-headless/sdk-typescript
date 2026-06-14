@@ -1,0 +1,10 @@
+{
+  "entryPoints": ["src/index.ts"],
+  "out": "docs",
+  "plugin": [
+    "typedoc-plugin-markdown",
+    "typedoc-plugin-llms-txt"
+  ],
+  "name": "pain-headless",
+  "readme": "README.md"
+}

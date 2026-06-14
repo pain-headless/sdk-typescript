@@ -1,0 +1,43 @@
+# pain-headless
+
+> The ultimate browser as a service SDK for webscraping
+
+## API
+- [AuthenticationError](classes/AuthenticationError.md): AuthenticationError class
+- [BrowserNotStartedError](classes/BrowserNotStartedError.md): BrowserNotStartedError class
+- [CommandError](classes/CommandError.md): CommandError class
+- [CommandNotFoundError](classes/CommandNotFoundError.md): CommandNotFoundError class
+- [ConnectionError](classes/ConnectionError.md): ConnectionError class
+- [DisconnectedError](classes/DisconnectedError.md): DisconnectedError class
+- [InsufficientCreditsError](classes/InsufficientCreditsError.md): InsufficientCreditsError class
+- [InvalidParamsError](classes/InvalidParamsError.md): InvalidParamsError class
+- [LostBrowserConnectionError](classes/LostBrowserConnectionError.md): LostBrowserConnectionError class
+- [NoCaptchaDetectedError](classes/NoCaptchaDetectedError.md): NoCaptchaDetectedError class
+- [PainHeadlessError](classes/PainHeadlessError.md): PainHeadlessError class
+- [PayloadParsingError](classes/PayloadParsingError.md): PayloadParsingError class
+- [ServiceNotAvailableError](classes/ServiceNotAvailableError.md): ServiceNotAvailableError class
+- [StealthBrowser](classes/StealthBrowser.md): StealthBrowser class
+- [TimeoutError](classes/TimeoutError.md): TimeoutError class
+- [WSClient](classes/WSClient.md): WSClient class
+- [BrowserLaunchOptions](interfaces/BrowserLaunchOptions.md): BrowserLaunchOptions interface
+- [ClickOptions](interfaces/ClickOptions.md): ClickOptions interface
+- [CommandResult](interfaces/CommandResult.md): CommandResult interface
+- [CreditUsage](interfaces/CreditUsage.md): CreditUsage interface
+- [ExistsResult](interfaces/ExistsResult.md): ExistsResult interface
+- [ExtractDataOptions](interfaces/ExtractDataOptions.md): ExtractDataOptions interface
+- [ExtractFieldOptions](interfaces/ExtractFieldOptions.md): ExtractFieldOptions interface
+- [ExtractListOptions](interfaces/ExtractListOptions.md): ExtractListOptions interface
+- [ExtractListResult](interfaces/ExtractListResult.md): ExtractListResult interface
+- [ExtractTextResult](interfaces/ExtractTextResult.md): ExtractTextResult interface
+- [FillFormOptions](interfaces/FillFormOptions.md): FillFormOptions interface
+- [InputFillOptions](interfaces/InputFillOptions.md): InputFillOptions interface
+- [ScreenshotResult](interfaces/ScreenshotResult.md): ScreenshotResult interface
+- [SelectOptions](interfaces/SelectOptions.md): SelectOptions interface
+- [SetCheckedOptions](interfaces/SetCheckedOptions.md): SetCheckedOptions interface
+- [SolveSimpleCaptchaOptions](interfaces/SolveSimpleCaptchaOptions.md): SolveSimpleCaptchaOptions interface
+- [SolveTextCaptchaOptions](interfaces/SolveTextCaptchaOptions.md): SolveTextCaptchaOptions interface
+- [TypeOptions](interfaces/TypeOptions.md): TypeOptions interface
+- [ExtractAttributesResult](type-aliases/ExtractAttributesResult.md): ExtractAttributesResult type alias
+- [ExtractDataResult](type-aliases/ExtractDataResult.md): ExtractDataResult type alias
+- [ExtractedDataField](type-aliases/ExtractedDataField.md): ExtractedDataField type alias
+- [FillFormValues](type-aliases/FillFormValues.md): FillFormValues type alias
