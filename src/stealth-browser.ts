@@ -6,7 +6,7 @@ import {
     InvalidParamsError,
     CommandError
 } from "./exceptions";
-import { BrowserLaunchOptions, ClickOptions, CommandResult, ExistsResult, ExtractAttributesResult, ExtractDataOptions, ExtractDataResult, ExtractFieldOptions, ExtractListOptions, ExtractListResult, ExtractTextResult, FillFormOptions, FillFormValues, SelectOptions, SetCheckedOptions, TypeOptions } from "./types";
+import { BrowserLaunchOptions, ClickOptions, CommandResult, ExistsResult, ExtractAttributesResult, ExtractDataOptions, ExtractDataResult, ExtractFieldOptions, ExtractListOptions, ExtractListResult, ExtractTextResult, FillFormOptions, FillFormValues, ScreenshotResult, SelectOptions, SetCheckedOptions, TypeOptions } from "./types";
 import { WSClient } from "./ws-client";
 
 export class StealthBrowser {
@@ -402,5 +402,33 @@ export class StealthBrowser {
         }
 
         return data;
+    }
+
+    /**
+     * Captures a screenshot of the current page.
+     * 
+     * **Credit cost:** 4 credits
+     * 
+     * @returns {Promise<ScreenshotResult>} An object containing the screenshot presigned URL.
+     */
+    async screenshot(): Promise<ScreenshotResult> {
+        const result = await this.send('screenshot');
+
+        return {
+            url: result.rawData?.data?.data || '',
+            ...result,
+        };
+    }
+
+    /**
+     * Pauses the automation for a specified number of milliseconds.
+     * 
+     * **Credit cost:** 0 credits
+     * 
+     * @param {number} ms - The number of milliseconds to pause the automation.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
+    async sleep(ms: number): Promise<CommandResult> {
+        return await this.send('sleep', { ms });
     }
 }
