@@ -431,4 +431,15 @@ export class StealthBrowser {
     async sleep(ms: number): Promise<CommandResult> {
         return await this.send('sleep', { ms });
     }
+
+    /**
+     * Solves a simple captcha (like reCAPTCHA v2/Cloudflare Turnstile) on the current page.
+     * 
+     * **Credit cost:** 80 credits
+     * 
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
+    async solveSimpleCaptcha(): Promise<CommandResult> {
+        return await this.send('solve-simple-captcha');
+    }
 }
