@@ -1,6 +1,6 @@
 export class PainHeadlessError extends Error {
 
-    constructor(message: string, public code?: number, public partialData?: any, public string?: errorCause) {
+    constructor(message: string, public code?: number, public partialData?: any, public errorCause?: string) {
         super(message);
         this.name = this.constructor.name;
         if (Error.captureStackTrace) {
