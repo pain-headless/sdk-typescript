@@ -20,8 +20,6 @@ export class StealthBrowser {
             device: 'desktop',
             system: 'windows',
             timezone: 'America/Sao_Paulo',
-            useProxy: false,
-            rotateIp: false,
             waitElements: {
                 until: 'visible',
                 timeout: 3000,

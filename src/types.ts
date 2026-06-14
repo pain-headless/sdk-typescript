@@ -4,8 +4,11 @@ export interface BrowserLaunchOptions {
     timezone?: string;
     device?: 'desktop' | 'mobile';
     system?: 'windows' | 'mac' | 'linux' | 'android' | 'ios';
-    useProxy?: boolean;
-    rotateIp?: boolean;
+    proxy?: {
+        type: 'premium'|'simple';
+        country: string;
+        strategy: 'sticky'|'rotate';
+    }
     waitElements?: {
         timeout?: number;
         until?: 'visible' | 'presence';
