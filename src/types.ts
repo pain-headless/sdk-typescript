@@ -48,6 +48,7 @@ export type ExtractedDataField = IExtractedDataField | IExtractedDataField[];
 export interface ExtractFieldOptions {
     element: string;
     attribute?: string | string[];
+    format?: (value: any) => any;
     isList?: boolean;
 }
 
@@ -63,7 +64,7 @@ export interface ExtractListOptions extends ExtractDataOptions {
     elements: string;
     pagination?: {
         maxPages: number;
-        buttonSelector: string|string[]|((page: number, nextPage: number, prevPage: number) => string);
+        buttonSelectors: string|string[]|((page: number, nextPage: number, prevPage: number) => string);
         offset?: number;
         delayBetweenPages?: number;
     };
@@ -83,7 +84,7 @@ export interface ExtractListResult extends CommandResult {
 }
 
 export interface ExtractTextResult extends CommandResult {
-    data: string | string[];
+    text: string | string[];
 }
 
 export type FillFormValues = Record<string, string | number | boolean>
