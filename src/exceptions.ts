@@ -1,6 +1,6 @@
 export class PainHeadlessError extends Error {
 
-    constructor(message: string, public code?: number, public partialData?: any, public errorCause?: string) {
+    constructor(message: string, public code?: number, public partialData?: any, public errorCause?: string, public credits?: { used: number, total: number;  }) {
         super(message);
         this.name = this.constructor.name;
         if (Error.captureStackTrace) {
@@ -58,7 +58,7 @@ export class CommandNotFoundError extends PainHeadlessError {
 }
 
 export class CommandError extends PainHeadlessError {
-    constructor(message: string = 'Error running the command.', errorCause?: string, partialData?: any) {
-        super(message, 1000, partialData, errorCause);
+    constructor(message: string = 'Error running the command.', errorCause?: string, partialData?: any, credits?: { used: number, total: number;  }) {
+        super(message, 1000, partialData, errorCause, credits);
     }
 }
