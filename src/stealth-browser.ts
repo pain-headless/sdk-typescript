@@ -6,7 +6,7 @@ import {
     InvalidParamsError,
     CommandError
 } from "./exceptions";
-import { BrowserLaunchOptions, ClickOptions, CommandResult, ExistsResult, ExtractAttributesResult, ExtractDataOptions, ExtractDataResult, ExtractFieldOptions, ExtractListOptions, ExtractListResult, ExtractTextResult, FillFormOptions, FillFormValues, ScreenshotResult, SelectOptions, SetCheckedOptions, TypeOptions } from "./types";
+import { BrowserLaunchOptions, ClickOptions, CommandResult, ExistsResult, ExtractAttributesResult, ExtractDataOptions, ExtractDataResult, ExtractFieldOptions, ExtractListOptions, ExtractListResult, ExtractTextResult, FillFormOptions, FillFormValues, ScreenshotResult, SelectOptions, SetCheckedOptions, SolveTextCaptchaOptions, TypeOptions } from "./types";
 import { WSClient } from "./ws-client";
 
 export class StealthBrowser {
@@ -441,5 +441,17 @@ export class StealthBrowser {
      */
     async solveSimpleCaptcha(): Promise<CommandResult> {
         return await this.send('solve-simple-captcha');
+    }
+
+    /**
+     * Solves a text captcha on the current page.
+     * 
+     * **Credit cost:** 80 credits
+     * 
+     * @param {SolveTextCaptchaOptions} options - The configuration object defining the image and input selectors.
+     * @returns {Promise<CommandResult>} The result of the command execution.
+     */
+    async solveTextCaptcha(options: SolveTextCaptchaOptions): Promise<CommandResult> {
+        return await this.send('solve-text-captcha', options);
     }
 }
