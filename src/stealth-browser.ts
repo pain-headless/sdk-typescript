@@ -90,6 +90,7 @@ export class StealthBrowser {
      * @returns {Promise<CommandResult>} The result of the command execution.
      */
     async start(): Promise<CommandResult> {
+        await this.ws.connect();
         const { apiKey, ...options } = this.options;
 
         return await this.send('start', options);
@@ -115,7 +116,7 @@ export class StealthBrowser {
      * @returns {Promise<CommandResult>} The result of the command execution.
      */
     async goTo(url: string): Promise<CommandResult> {
-        return await this.send('goto', { url });
+        return await this.send('go-to', { url });
     }
 
     /**

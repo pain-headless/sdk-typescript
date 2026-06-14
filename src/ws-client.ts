@@ -14,22 +14,27 @@ export class WSClient {
         }[env];
     }
 
-    connect () {
-        this.ws = new WebSocket(this.url);
-    
-        this.ws.on('message', (rawData) => {
-            try {
-                const response = JSON.parse(rawData.toString());
-    
-                if (this.pendingResolve && this.pendingReject) {
-                    this.pendingResolve(response);
+    connect (): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.ws = new WebSocket(this.url);
+        
+            this.ws.on('message', (rawData) => {
+                try {
+                    const response = JSON.parse(rawData.toString());
+        
+                    if (this.pendingResolve && this.pendingReject) {
+                        this.pendingResolve(response);
+                    }
+                } catch (err) {
+                    this.pendingReject(err);
+                } finally {
+                    delete this.pendingResolve;
+                    delete this.pendingReject;
                 }
-            } catch (err) {
-                this.pendingReject(err);
-            } finally {
-                delete this.pendingResolve;
-                delete this.pendingReject;
-            }
+            });
+
+            this.ws.on('open', resolve);
+            this.ws.on('error', reject);
         });
     }
 
