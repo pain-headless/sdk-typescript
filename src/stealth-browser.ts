@@ -161,7 +161,7 @@ export class StealthBrowser {
             ...options,
         };
 
-        return await this.send('fillForm', { parentForm, values, ...mergedOptions });
+        return await this.send('fill-form', { parentForm, values, ...mergedOptions });
     }
 
     /**
@@ -230,7 +230,7 @@ export class StealthBrowser {
             ...options,
         };
 
-        return await this.send('setChecked', { selector, value, ...mergedOptions });
+        return await this.send('set-checked', { selector, value, ...mergedOptions });
     }
 
     /**
