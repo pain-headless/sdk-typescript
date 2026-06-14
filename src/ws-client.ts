@@ -1,11 +1,13 @@
 import { LOCAL_WS_URL, PROD_WS_URL } from "./config";
 import { WebSocket } from 'ws';
+import { LostBrowserConnectionError } from "./exceptions";
 
 export class WSClient {
     private url: string;
     private ws?: WebSocket;
     private pendingResolve: any = null;
     private pendingReject: any = null;
+    private connected: boolean = false;
 
     constructor (env: 'local'|'prod' = 'prod') {
         this.url = {
@@ -33,8 +35,25 @@ export class WSClient {
                 }
             });
 
-            this.ws.on('open', resolve);
+            this.ws.on('open', () => {
+                this.connected = true;
+                resolve();
+            });
             this.ws.on('error', reject);
+            this.ws.on('close', () => {
+                if (this.ws && this.connected) {
+                    const error = new LostBrowserConnectionError();
+                    this.connected = false;
+                    
+                    if (this.pendingReject) {
+                        this.pendingReject(error);
+                        delete this.pendingResolve;
+                        delete this.pendingReject;
+                    } else {
+                        throw error;
+                    }
+                }
+            });
         });
     }
 
@@ -53,7 +72,11 @@ export class WSClient {
 
     disconnect(): void {
         if (this.ws) {
+            this.connected = false;
+
             this.ws.close();
+            this.ws.removeAllListeners();
+
             this.ws = undefined;
         }
     }

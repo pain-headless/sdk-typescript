@@ -80,3 +80,9 @@ export class ServiceNotAvailableError extends PainHeadlessError {
         super(message, -5);
     }
 }
+
+export class LostBrowserConnectionError extends PainHeadlessError {
+    constructor(message: string = 'The connection to the browser was lost unexpectedly.') {
+        super(message, -6);
+    }
+}
