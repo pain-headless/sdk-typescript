@@ -33,7 +33,7 @@ export class StealthBrowser {
         };
 
         this.options = defaultOptions;
-        this.ws = new WSClient('local');
+        this.ws = new WSClient();
     }
 
     private async send(command: string, parameters?: any): Promise<CommandResult> {
